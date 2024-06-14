@@ -3,7 +3,6 @@ export type Version = {
   id?: string
   name: string
   archived: boolean
-  released: boolean
   startDate?: string
   releaseDate?: string
   userStartDate?: string

@@ -56,7 +56,6 @@ async function run(): Promise<void> {
         const versionToCreate: Version = {
           name: RELEASE_NAME,
           archived: false,
-          released: false,
           releaseDate: new Date().toISOString(),
           projectId: Number(project.project?.id)
         }
@@ -68,7 +67,6 @@ async function run(): Promise<void> {
       const versionToUpdate: Version = {
         ...version,
         self: undefined,
-        released: false,
         releaseDate: new Date().toISOString(),
         userReleaseDate: undefined
       }
