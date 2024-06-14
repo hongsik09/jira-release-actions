@@ -45,30 +45,30 @@ async function run(): Promise<void> {
 
     const project = await Project.create(EMAIL, API_TOKEN, PROJECT, SUBDOMAIN)
 
-    core.debug(`Project loaded ${project.project?.id}`)
+    core.info(`Project loaded ${project.project?.id}`)
 
     let version = project.getVersion(RELEASE_NAME)
 
     if (version === undefined) {
-      core.debug(`Version ${RELEASE_NAME} not found`)
+      core.info(`Version ${RELEASE_NAME} not found`)
       if (CREATE === 'true') {
-        core.debug(`Version ${RELEASE_NAME} is going to the created`)
+        core.info(`Version ${RELEASE_NAME} is going to the created`)
         const versionToCreate: Version = {
           name: RELEASE_NAME,
           archived: false,
-          released: true,
+          released: false,
           releaseDate: new Date().toISOString(),
           projectId: Number(project.project?.id)
         }
         version = await project.createVersion(versionToCreate)
-        core.debug(versionToCreate.name)
+        core.info(versionToCreate.name)
       }
     } else {
-      core.debug(`Version ${RELEASE_NAME} found and is going to be updated`)
+      core.info(`Version ${RELEASE_NAME} found and is going to be updated`)
       const versionToUpdate: Version = {
         ...version,
         self: undefined,
-        released: true,
+        released: false,
         releaseDate: new Date().toISOString(),
         userReleaseDate: undefined
       }
@@ -79,7 +79,7 @@ async function run(): Promise<void> {
       const tickets = TICKETS.split(',')
       // eslint-disable-next-line github/array-foreach
       tickets.forEach(ticket => {
-        core.debug(`Going to update ticket ${ticket}`)
+        core.info(`Going to update ticket ${ticket}`)
         if (version?.id !== undefined) project.updateIssue(ticket, version?.id)
       })
     }
